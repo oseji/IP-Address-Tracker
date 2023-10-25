@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+header {
+  @apply relative bg-backgroundMobile lg:bg-backgroundDesktop bg-no-repeat bg-cover pt-5 lg:px-10;
+}
+
+.heading {
+  @apply w-10/12 mx-auto lg:w-auto lg:mx-0 text-white text-3xl font-bold text-center;
+}
+
+.searchSection {
+  @apply w-10/12 lg:w-auto mx-auto lg:mx-0 flex flex-row items-center justify-center my-8 hover:scale-105 transition ease-in-out duration-200;
+}
+
+.searchBar {
+  @apply p-3 rounded-l-lg w-96 hover:cursor-pointer;
+}
+.searchBar::placeholder {
+  @apply text-sm;
+}
+.searchBar:focus {
+  @apply outline-0;
+}
+
+.searchBtn {
+  @apply bg-black p-4 rounded-r-lg;
+}
+
+.arrowImg {
+  @apply h-4 w-4;
+}
+
+.IPDetailsContainer {
+  @apply z-10 relative lg:top-14 w-9/12 mx-auto flex flex-col lg:flex-row text-center lg:text-start justify-between gap-5 lg:gap-0  py-6 px-4 rounded-lg bg-white shadow-2xl hover:scale-105 transition ease-in-out duration-200;
+}
+
+.IPDetail {
+  @apply w-full px-5;
+}
+
+.detailHeading {
+  @apply text-slate-500 text-sm;
+}
+
+.detailInfo {
+  @apply text-xl lg:text-2xl font-bold;
+}
+
+.detailHeading {
+  @apply uppercase font-semibold;
+}
+
+#mapContainer,
+.leaflet-container {
+  @apply w-full h-halfScreen z-0;
+}
+
+#mapContainer {
+  @apply relative bottom-28 lg:bottom-0;
+}
