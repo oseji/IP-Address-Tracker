@@ -14,21 +14,28 @@ import desktopBg from "./assets/pattern-bg-desktop.png";
 
 function App() {
   const [position, setPosition] = useState([0, 0]);
-  const [ipPosition, setIpPosition] = useState(position);
+  const [ipPosition, setIpPosition] = useState([]);
+
   const [load, setLoad] = useState(true);
 
   const [apiLoading, setApiLoading] = useState(false);
   const [data, setData] = useState(null);
   const [country, setCountry] = useState("");
+  const [inputIP, setInputIP] = useState("");
 
   const [ipAddress, setIpAddress] = useState("loading");
-  const [location, setLocation] = useState("loading");
-  const [timezone, setTimezone] = useState("loading");
-  const [isp, setIsp] = useState("loading");
+  const [city, setCity] = useState("loading");
+
+  const [ipType, setIpType] = useState("loading");
+
+  // const [apiLink, setApiLink] = useState(
+  //   `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${ipAddress}`
+  // );
 
   const [apiLink, setApiLink] = useState(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=at_YqU1rh19CMul6kttwJmJ9QtkVfx7K&ipAddress=${ipAddress}`
+    `http://api.ipstack.com/${ipAddress}?access_key=d0caedd7945c2290f5b95ed0504d5419`
   );
+
   const [error, setError] = useState(null);
 
   //fetch IP address
@@ -39,7 +46,7 @@ function App() {
         const data = await response.json();
         setIpAddress(data.ip);
         setApiLink(
-          `https://geo.ipify.org/api/v2/country,city?apiKey=at_YqU1rh19CMul6kttwJmJ9QtkVfx7K&ipAddress=${data.ip}`
+          `http://api.ipstack.com/${data.ip}?access_key=d0caedd7945c2290f5b95ed0504d5419`
         );
       } catch (error) {
         console.error("Error fetching IP address: ", error);
@@ -54,7 +61,7 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         (e) => {
           console.log(e);
-          //setPosition([e.coords.latitude, e.coords.longitude]);
+          setPosition([e.coords.latitude, e.coords.longitude]);
           //console.log(position);
           setLoad(false);
         },
@@ -81,11 +88,12 @@ function App() {
       setData(data);
       console.log(data);
 
-      setLocation(data.location.region);
-      setTimezone(data.location.timezone);
-      setIsp(data.isp);
-      setIpPosition([data.location.lat, data.location.lng]);
-      console.log(position);
+      setCity(data.city);
+      setCountry(data.country_name);
+      setIpType(data.type);
+      setIpPosition([data.latitude, data.longitude]);
+
+      console.log(position, ipPosition);
     } catch (error) {
       setError(error);
       // if (error) {
@@ -99,20 +107,20 @@ function App() {
   //fetch data and get location when ipAddress changes
   useEffect(() => {
     getLocation();
-    fetchData();
+    //fetchData();
   }, [ipAddress]);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [ipAddress]);
+  useEffect(() => {
+    fetchData();
+  }, [position]);
 
   const submitBtn = (e) => {
     e.preventDefault();
-    console.log(country, position);
+    console.log(inputIP, position);
 
     fetchData();
 
-    setCountry("");
+    setInputIP("");
   };
 
   return (
@@ -125,9 +133,10 @@ function App() {
             type="text"
             className="searchBar"
             placeholder="Search for any IP address or domain"
-            value={country}
+            value={inputIP}
             onChange={(e) => {
-              setCountry(e.target.value);
+              setInputIP(e.target.value);
+              console.log(inputIP);
             }}
           />
           <button className="searchBtn">
@@ -146,16 +155,16 @@ function App() {
             <p className="detailInfo">{ipAddress}</p>
           </div>
           <div className="IPDetail border-x lg:border-slate-300">
-            <h1 className="detailHeading">location</h1>
-            <p className="detailInfo">{location}</p>
+            <h1 className="detailHeading">city</h1>
+            <p className="detailInfo">{city}</p>
           </div>
           <div className="IPDetail border-r lg:border-slate-300">
-            <h1 className="detailHeading">timezone</h1>
-            <p className="detailInfo">{timezone}</p>
+            <h1 className="detailHeading">country</h1>
+            <p className="detailInfo">{country}</p>
           </div>
           <div className="IPDetail">
-            <h1 className="detailHeading">isp</h1>
-            <p className="detailInfo">{isp}</p>
+            <h1 className="detailHeading">type</h1>
+            <p className="detailInfo">{ipType}</p>
           </div>
         </div>
       </header>
