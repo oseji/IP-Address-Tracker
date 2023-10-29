@@ -54,7 +54,7 @@ header {
 
 #mapContainer,
 .leaflet-container {
-  @apply w-full h-halfScreen z-0;
+  @apply w-full h-screen z-0;
 }
 
 #mapContainer {
