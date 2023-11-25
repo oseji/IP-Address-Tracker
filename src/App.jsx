@@ -11,14 +11,16 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import iconArrow from "./assets/icon-arrow.svg";
+import { map } from "leaflet";
 
 function App() {
   const [position, setPosition] = useState([0, 0]);
-  const [ipPosition, setIpPosition] = useState([]);
+  const [ipPosition, setIpPosition] = useState([0, 0]);
 
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(true); //this is for location loading
 
   const [apiLoading, setApiLoading] = useState(false);
+  const [isIpSet, setIsIpSet] = useState(false);
   const [data, setData] = useState(null);
   const [country, setCountry] = useState("");
   const [inputIP, setInputIP] = useState("");
@@ -34,15 +36,17 @@ function App() {
 
   const [error, setError] = useState(null);
 
-  //GET DEVICE LOCATION FOR THE MAPS INITIAL LOAD
+  const mapRef = useRef(null);
+  const mapview = mapRef.current;
+
+  //FUNCTIONS
   const getLocation = (e) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (e) => {
           console.log(e);
           setPosition([e.coords.latitude, e.coords.longitude]);
-          //setPosition(ipPosition);
-          //console.log(position);
+
           setLoad(false);
         },
         (err) => {
@@ -55,36 +59,23 @@ function App() {
     }
   };
 
-  //fetch data and get location when ipAddress changes
-  useEffect(() => {
-    getLocation();
-    //fetchData();
-  }, []);
+  const fetchIpAddress = async () => {
+    try {
+      //fetching device IP
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
 
-  //FETCH IP ADDRESS WHENEVER DEVICE LOCATION CHANGES
-  useEffect(() => {
-    const fetchIpAddress = async () => {
-      try {
-        //fetching device IP
-        const response = await fetch("https://api.ipify.org?format=json");
-        const data = await response.json();
-        console.log(data);
+      setIpAddress(data.ip);
 
-        setIpAddress(data.ip);
-
-        setApiLink(
-          `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${data.ip}`
-        );
-
-        coords.load(apiLink);
-        //setIpPosition([data.latitude, data.longitude]);
-      } catch (error) {
-        console.error("Error fetching IP address: ", error);
-      }
-    };
-
-    fetchIpAddress();
-  }, [position]);
+      setApiLink(
+        `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${data.ip}`
+      );
+    } catch (error) {
+      console.error("Error fetching IP address: ", error);
+    } finally {
+      setIsIpSet(true);
+    }
+  };
 
   const fetchData = async () => {
     setApiLoading(true);
@@ -102,7 +93,11 @@ function App() {
       setCity(data.location.city);
       setCountry(data.location.country);
       setIpType(data.isp);
-      setIpPosition([data.location.lat, data.location.lng]);
+      setPosition([data.location.lat, data.location.lng]);
+
+      // if (map) {
+      //   map.setView(position);
+      // }
 
       console.log(position, ipPosition, apiLink);
     } catch (error) {
@@ -126,9 +121,28 @@ function App() {
     setInputIP("");
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [position, apiLink]);
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  //UPDATE MAP WHEN POSITION CHANGES
+  useEffect(() => {
+    const mapView = mapRef.current;
+    if (mapView) {
+      mapView.setView(position);
+      mapView.setZoom(17);
+    }
+  }, [position]);
+
+  //FETCH IP ADDRESS WHENEVER DEVICE LOCATION CHANGES
+  useEffect(() => {
+    fetchIpAddress();
+  }, [position]);
+
+  //FETCH NEW DATA ABOUT IP WHEN IP ADDRESS HAS BEEN SET
+  useEffect(() => {
+    fetchData();
+  }, [isIpSet]);
 
   const loadingVariants = {
     animation: {
@@ -199,7 +213,7 @@ function App() {
         </div>
       </header>
 
-      <div id="mapContainer" onClick={getLocation}>
+      <div id="mapContainer">
         {/* if location data is still loading */}
         {load && (
           <div className="loadingScreen">
@@ -221,7 +235,12 @@ function App() {
 
         {/* if location data is done loading */}
         {!load && (
-          <MapContainer center={position} zoom={12} scrollWheelZoom={false}>
+          <MapContainer
+            ref={mapRef}
+            center={position}
+            zoom={12}
+            scrollWheelZoom={false}
+          >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
