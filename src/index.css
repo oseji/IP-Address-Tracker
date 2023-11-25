@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-black;
+}
+
 header {
-  @apply relative bg-backgroundMobile lg:bg-backgroundDesktop bg-no-repeat bg-cover pt-5 lg:px-10;
+  @apply relative  bg-no-repeat bg-cover pt-5 lg:px-10;
 }
 
 .heading {
@@ -54,9 +58,17 @@ header {
 
 #mapContainer,
 .leaflet-container {
-  @apply w-full h-screen z-0;
+  @apply w-full h-screen z-0 bg-black;
 }
 
 #mapContainer {
   @apply relative bottom-28 lg:bottom-0;
+}
+
+.loadingScreen {
+  @apply flex justify-center items-center;
+}
+
+.loader {
+  @apply h-5 w-5 mt-52 md:mt-72 lg:mt-52 rounded-full bg-white;
 }
