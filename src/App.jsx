@@ -246,7 +246,7 @@ function App() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={position}>
-              <Popup>Marker</Popup>
+              <Popup>You are here</Popup>
             </Marker>
           </MapContainer>
         )}

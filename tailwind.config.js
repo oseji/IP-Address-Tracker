@@ -9,7 +9,8 @@ export default {
         backgroundMobile: "url('./src/assets/pattern-bg-mobile.png')",
       },
       height: {
-        halfScreen: "80vh",
+        desktopScreen: "80vh",
+        phoneScreen: "60vh",
       },
     },
   },
