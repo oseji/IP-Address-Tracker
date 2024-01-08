@@ -1,32 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 
-import { motion } from "framer-motion";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-import bgDesk from "./assets/pattern-bg-desktop.png";
-import bgMob from "./assets/pattern-bg-mobile.png";
-
 function App() {
-  const loadingVariants = {
-    animation: {
-      x: [-100, 100],
-
-      transition: {
-        x: {
-          repeat: Infinity,
-          yoyo: Infinity,
-          duration: 1,
-        },
-        y: {
-          repeat: Infinity,
-          yoyo: Infinity,
-          duration: 1,
-        },
-      },
-    },
-  };
-
   const iconArrow = (
     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="14">
       <path fill="none" stroke="#FFF" strokeWidth="3" d="M2 1l6 6-6 6" />
