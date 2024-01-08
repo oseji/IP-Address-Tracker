@@ -2,73 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-black;
+.App {
+  @apply bg-black min-h-screen;
 }
 
 header {
-  @apply relative  bg-no-repeat bg-cover pt-5 lg:px-10;
+  @apply bg-cover max-h-96 relative;
 }
 
 .heading {
-  @apply w-10/12 mx-auto lg:w-auto lg:mx-0 text-white text-3xl font-bold text-center;
+  @apply text-white text-3xl font-bold text-center py-5;
 }
 
-.searchSection {
-  @apply w-10/12 lg:w-auto mx-auto lg:mx-0 flex flex-row items-center justify-center my-8 hover:scale-105 transition ease-in-out duration-200;
+.inputGrp {
+  @apply flex flex-row items-center justify-center;
 }
 
-.searchBar {
-  @apply p-3 rounded-l-lg w-96 hover:cursor-pointer;
-}
-.searchBar::placeholder {
-  @apply text-sm;
-}
-.searchBar:focus {
-  @apply outline-0;
+input {
+  @apply p-2 rounded-l-lg focus:outline-0 w-80;
 }
 
-.searchBtn {
-  @apply bg-black p-4 rounded-r-lg;
+.submitBtn {
+  @apply bg-black hover:bg-gray-800 p-3.5 rounded-r-lg;
 }
 
-.arrowImg {
-  @apply h-4 w-4;
+.displayResults {
+  @apply w-11/12 lg:w-9/12 mx-auto flex flex-col lg:flex-row justify-between items-center lg:items-start  bg-white p-4 rounded-lg relative top-16 lg:top-14 z-50;
 }
 
-.IPDetailsContainer {
-  @apply z-10 relative lg:top-14 w-9/12 mx-auto flex flex-col lg:flex-row text-center lg:text-start justify-between gap-5 lg:gap-0  py-6 px-4 rounded-lg bg-white shadow-2xl md:hover:scale-105 transition ease-in-out duration-200;
+.resultContainer {
+  @apply lg:w-1/4 text-center lg:text-start flex flex-col gap-3 p-2;
 }
 
-.IPDetail {
-  @apply w-full px-5;
+.resultHeading {
+  @apply uppercase font-semibold text-xs lg:text-sm text-slate-600;
 }
 
-.detailHeading {
-  @apply text-slate-500 text-sm;
+.result {
+  @apply font-bold text-2xl;
 }
 
-.detailInfo {
-  @apply text-xl lg:text-2xl font-bold;
+#map {
+  @apply relative;
 }
 
-.detailHeading {
-  @apply uppercase font-semibold;
-}
-
-#mapContainer,
-.leaflet-container {
-  @apply w-full h-phoneScreen md:h-desktopScreen overflow-hidden z-0 bg-black;
-}
-
-#mapContainer {
-  @apply relative bottom-28 lg:bottom-0;
-}
-
-.loadingScreen {
-  @apply flex justify-center items-center;
-}
-
-.loader {
-  @apply h-5 w-5 mt-52 md:mt-72 lg:mt-52 rounded-full bg-white;
+.mapContainer {
+  @apply h-phoneScreen lg:h-desktopScreen;
 }
