@@ -32,7 +32,7 @@ function App() {
 
   const getIP = "https://api.ipify.org?format=json";
   const [getIpData, setGetIpData] = useState(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${searchedIP}`
+    `https://geo.ipify.org/api/v2/country,city?apiKey=at_I75ZfnulXpsHjdbOoO4S5IQYHKYCO&ipAddress=${searchedIP}`
   );
 
   const [apiData, setApiData] = useState([]);
@@ -50,7 +50,7 @@ function App() {
       const data = await response.json();
       setIpAddress(data.ip);
       setGetIpData(
-        `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${data.ip}`
+        `https://geo.ipify.org/api/v2/country,city?apiKey=at_I75ZfnulXpsHjdbOoO4S5IQYHKYCO&ipAddress=${data.ip}`
       );
       console.log(data.ip);
     } catch (err) {
@@ -98,7 +98,7 @@ function App() {
   //update link to get IP data when user types
   useEffect(() => {
     setGetIpData(
-      `https://geo.ipify.org/api/v2/country,city?apiKey=at_xFRAXtrPbpaoVAwKOkSYAXyH9bveA&ipAddress=${searchedIP}`
+      `https://geo.ipify.org/api/v2/country,city?apiKey=at_I75ZfnulXpsHjdbOoO4S5IQYHKYCO&ipAddress=${searchedIP}`
     );
   }, [searchedIP]);
 
