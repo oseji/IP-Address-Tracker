@@ -1,9 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IP Address Tracker</title>
+    <meta
+      name="description"
+      content="Look up any IP address or domain and see where it is on the map, its local time, and the network behind it."
+    />
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://geo.ipify.org" crossorigin />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" />
+    <script>
+      // Set the theme before first paint to avoid a flash.
+      try {
+        var t = localStorage.getItem("ipt:theme");
+        if (t !== "light" && t !== "dark")
+          t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
